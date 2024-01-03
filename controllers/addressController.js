@@ -10,3 +10,17 @@ exports.getAddressData = async (req, res) => {
         res.status(500).json({ error: error });
     }
 };
+
+exports.postAddressData = async (req, res) => {
+    const address = new Address({
+        _id: new mongoose.Types.ObjectId(),
+        walletAddress: req.body.walletAddress,
+    });
+    try {
+        const savedAddress = await address.save();
+        console.log(savedAddress);
+        res.status(200).json(savedAddress);
+    } catch (error) {
+        res.status(500).json({ error: error });
+    }
+}
