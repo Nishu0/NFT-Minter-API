@@ -17,9 +17,15 @@ exports.postAddressData = async (req, res) => {
         walletAddress: req.body.walletAddress,
     });
     try {
-        const savedAddress = await address.save();
-        console.log(savedAddress);
-        res.status(200).json(savedAddress);
+        const exsisitingAddress = await Address.findOne({ walletAddress: req.body.walletAddress });
+        if (exsisitingAddress) {
+            console.log("Address already exists");
+        }
+        else {
+            const savedAddress = await address.save();
+            console.log(savedAddress);
+            res.status(200).json(savedAddress);
+        }
     } catch (error) {
         res.status(500).json({ error: error });
     }
